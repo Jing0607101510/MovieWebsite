@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>注册 | 猫瓣电影</title>
+    <link rel="icon" href="source/猫爪.png" type="image/x-icon">
+    <script>
+        function account_blur() {
+            var x = document.getElementById("account").value;
+            var y = document.getElementById("span-account-tip");
+            if (x == '' || x == undefined || x == null) {
+                y.style.visibility = "visible";
+            }
+            else {
+                y.style.visibility = "hidden";
+            }
+        }
+        function password_blur() {
+            var x = document.getElementById("password").value;
+            var y = document.getElementById("span-password-tip");
+            if (x == '' || x == undefined || x == null) {
+                y.style.visibility = "visible";
+            }
+            else {
+                y.style.visibility = "hidden";
+            }
+        }
+        function password_input() {
+            var x = document.getElementById("password").value;
+            var weak = document.getElementById("weak");
+            var normal = document.getElementById("normal");
+            var strong = document.getElementById("strong");
+            if (x == '' || x == undefined || x == null) {
+
+            }
+            else if (x.length < 6) {
+                weak.style.background = "#DC143C";
+                normal.style.background = "#CCC";
+                strong.style.background = "#CCC";
+            }
+            else if (x.length < 12) {
+                weak.style.background = "#FFD700";
+                normal.style.background = "#FFD700";
+                strong.style.background = "#CCC";
+            }
+            else {
+                weak.style.background = "#00FF00";
+                normal.style.background = "#00FF00";
+                strong.style.background = "#00FF00";
+            }
+        }
+
+        function confirm_blur() {
+            var x = document.getElementById("confirm").value;
+            var y = document.getElementById("password").value;
+            var z = document.getElementById("span-confirm-tip");
+            var u = document.getElementById("confirm-error");
+            if (x == '' || x == undefined || x == null) {
+                z.style.visibility = "visible";
+            }
+            else if (x != y) {
+                z.style.visibility = "visible";
+                u.innerText = "前后密码不一致"
+            }
+            else {
+                z.style.visibility = "hidden";
+            }
+        }
+
+        function register_click() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4) {
+                    if (xmlhttp.status >= 200 && xmlhttp.status < 300 || xmlhttp.status >= 304) {
+                        alert(xmlhttp.responseText);
+                        if(xmlhttp.responseText.indexOf("注册成功")!=-1){
+                            window.history.go(-1);
+                        }
+                    } else {
+                        alert("error");
+                    }
+                };
+            };
+            var account = document.getElementById("account").value;
+            if(account.length>9){
+                alert("账号过长！请重新设置！");
+                return;
+            }
+            var password = document.getElementById("password").value;
+            var confirm = document.getElementById("confirm").value;
+            if(confirm != password)
+                return;
+            var param = "account=" + account + "&password=" + password;
+            xmlhttp.open("post", "deal_register.jsp", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.send(param); 
+        }
+    </script>
+
+    <style>
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            border-bottom: 3px solid #00aeff;
+        }
+
+
+        .logo .logo-img {
+            width: 200px;
+            margin: 10px 0px 6px 160px;
+        }
+
+
+        .div-account-number {
+            position: absolute;
+            top: 30px;
+        }
+
+        .div-password-number {
+            position: absolute;
+            top: 100px;
+        }
+
+        .div-confirm-number {
+            position: absolute;
+            top: 190px;
+        }
+
+        .pw-strength {
+            position: absolute;
+            left: 273px;
+            top: 240px;
+        }
+
+        label {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            width: 200px;
+            padding-top: 6px;
+            font-size: 16px;
+            text-align: right;
+            color: #333;
+        }
+
+        .account-number,
+        .password-number,
+        .confirm-number {
+            position: absolute;
+            top: 85px;
+            left: 265px;
+            box-sizing: border-box;
+            width: 250px;
+            height: 34px;
+            border: 1.2px solid #aaa;
+            background-color: #fff;
+            margin: 16px 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .account-number:focus,
+        .password-number:focus,
+        .confirm-number:focus {
+            border-style: solid;
+            border-color: #03a9f4;
+            box-shadow: 0 0 15px #03a9f4;
+        }
+
+        .span-account-tip,
+        .span-password-tip,
+        .span-confirm-tip {
+            visibility: hidden;
+            position: absolute;
+            top: 0.5px;
+            left: 415px;
+        }
+
+        .account-tip,
+        .password-tip,
+        .confirm-tip {
+            position: absolute;
+            top: 108px;
+            left: 120px;
+            width: 18px;
+            height: 18px;
+            background-image: url("source/警告.png");
+            background-size: 100% 100%;
+        }
+
+        .account-error,
+        .password-error,
+        .confirm-error {
+            margin-top: 3px;
+            margin-left: -20px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .pw-strength-label {
+            display: block;
+            float: left;
+            text-align: center;
+            font-size: 12px;
+            height: 20px;
+            line-height: 20px;
+            width: 82px;
+            border-right: 2px solid #fff;
+            color: #fff;
+            background: #ccc;
+        }
+
+        .btn {
+            position: absolute;
+            left: 380px;
+            top: 360px;
+            background: #00aeef;
+            color: #fff;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 7px 20px 6px;
+            font-size: 14px;
+            font-weight: 700;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
+            letter-spacing: .1em;
+            text-align: center;
+            text-decoration: none;
+            border-width: 0 0 1px;
+            border-style: solid;
+            background-repeat: repeat-x;
+            border-radius: 5px;
+            user-select: none;
+            cursor: pointer;
+            width: 250px;
+            margin-left: -110px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <a class="logo" href="index.html"><img class="logo-img" src="source/猫瓣电影 - 副本.png" alt="猫瓣电影"></a>
+    </div>
+
+    <div class="content">
+        <form action="/register" method="POST">
+            <div class="div-account-number">
+                <label>账号</label>
+                <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="account" name="account"
+                    class="account-number" onblur="account_blur()">
+                <span id="span-account-tip" class="span-account-tip"><i class="account-tip"></i><label
+                        class="account-error">请输入您的账号</label></span>
+            </div>
+
+            <div class="div-password-number">
+                <label>创建密码</label>
+                <input type="password" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="password" name="password"
+                    class="password-number" onblur="password_blur()" oninput="password_input()">
+                <span id="span-password-tip" class="span-password-tip"><i class="password-tip"></i><label
+                        class="password-error">请输入您的密码</label></span>
+            </div>
+
+            <div class="pw-strength">
+                <span id="weak" class="pw-strength-label">弱</span>
+                <span id="normal" class="pw-strength-label">中</span>
+                <span id="strong" class="pw-strength-label">强</span>
+            </div>
+
+            <div class="div-confirm-number">
+                <label>确认密码</label>
+                <input type="password" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" id="confirm" name="confirm"
+                    class="confirm-number" onblur="confirm_blur()">
+                <span id="span-confirm-tip" class="span-confirm-tip"><i class="confirm-tip"></i><label
+                        id="confirm-error" class="confirm-error">请再次输入密码</label></span>
+            </div>
+
+            <div class="div-register">
+                <input type="button" class="btn" name="commit" value="注册" onclick="register_click()">
+            </div>
+
+        </form>
+    </div>
+</body>
+
+</html>
